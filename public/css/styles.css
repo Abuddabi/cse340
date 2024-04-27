@@ -1,6 +1,342 @@
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
 /******* Change Box Model ***************/
 *,
 *:before,
 *:after {
   box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: url("/images/site/small_check.webp") repeat;
+  /*background-size: cover;*/
+  margin: 0;
+  font-family: "Tahoma", sans-serif;
+}
+
+.wrapper {
+  max-width: 100%;
+  margin: 0;
+  background: #fff;
+  padding: 10px 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1,
+h2 {
+  font-size: 16px;
+}
+
+.h1 {
+  font-size: 22px;
+}
+
+.notice {
+  color: red;
+  font-weight: bold;
+  font-style: italic;
+}
+
+footer {
+  text-align: center;
+  border-top: 5px solid black;
+  padding: 10px;
+  margin-top: 0;
+}
+
+p {
+  margin: 0;
+}
+
+.red {
+  color: red;
+}
+.bold {
+  font-weight: bold;
+}
+.mt10 {
+  margin-top: 10px;
+}
+.mt20 {
+  margin-top: 20px;
+}
+
+.menu {
+  background: #3a3a3a;
+  display: flex;
+  margin: 10px 0;
+  padding: 0;
+}
+
+.menu__item {
+  color: white;
+  list-style: none;
+  text-decoration: none;
+}
+
+.menu__item.active,
+.menu__item:hover {
+  background: #326ea2;
+  color: #3a3a3a;
+}
+
+.menu__item-link {
+  display: block;
+  padding: 20px 8px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.main {
+  padding: 0 4px;
+}
+
+.main_500 {
+  padding: 0 25px;
+}
+
+.header-right {
+  display: flex;
+  padding-right: 10px;
+}
+
+.header-link {
+  padding: 10px;
+  margin: auto;
+  text-decoration: none;
+  color: #000;
+  font-size: 16px;
+  display: block;
+}
+
+.header-link:hover {
+  text-decoration: underline;
+}
+.header-link_inactive:hover,
+.header-link_search:hover {
+  text-decoration: none;
+}
+
+.own-today-button {
+  background: url("/images/site/own_today.png") no-repeat;
+  background-size: 100%;
+  width: 241px;
+  height: 72px;
+  cursor: pointer;
+  margin: 20px 0 0;
+  font-size: 0;
+  line-height: 0;
+}
+
+.text_forbutton {
+  opacity: 0;
+}
+
+.own-today-button_desktop {
+  display: none;
+  width: 190px;
+  height: 59px;
+}
+
+.description {
+  position: relative;
+  text-align: center;
+}
+
+.description h2,
+.description p {
+  color: #326ea2;
+  font-size: 15px;
+  margin: 0;
+}
+
+.description__text {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  text-align: left;
+}
+
+.description__image {
+  width: 100%;
+}
+
+.reviews__item + .reviews__item {
+  margin-top: 12px;
+}
+
+.upgrades__list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -15px -4px;
+  padding: 0;
+}
+
+.upgrades__item {
+  width: calc(50% - 8px);
+  margin: 15px 4px;
+  list-style: none;
+  text-align: center;
+}
+
+.upgrades__item-image {
+  height: 100px;
+  background: #4c96d7;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #3a3a3a;
+}
+
+.upgrade-1 {
+  background-image: url("/images/upgrades/flux-cap.png");
+}
+
+.upgrade-2 {
+  background-image: url("/images/upgrades/flame.jpg");
+}
+
+.upgrade-3 {
+  background-image: url("/images/upgrades/bumper_sticker.jpg");
+}
+
+.upgrade-4 {
+  background-image: url("/images/upgrades/hub-cap.jpg");
+}
+
+/* MEDIA */
+
+@media (min-width: 500px) {
+  /* … */
+}
+
+@media (min-width: 720px) {
+  .header-link {
+    font-size: 18px;
+  }
+  .header-right {
+    padding-right: 20px;
+  }
+  #inv-display {
+    flex-flow: row wrap;
+    justify-content: flex-start;
+  }
+  #inv-display h2 {
+    font-size: 1rem;
+  }
+  #inv-display li {
+    max-width: 200px;
+    flex: 1 0 auto;
+    text-align: center;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  #inv-display div {
+    width: 100%;
+  }
+  .vehicle__container {
+    flex-direction: row;
+    margin: -10px;
+  }
+  .vehicle__column {
+    padding: 10px;
+    /*flex: 1 1 auto;*/
+  }
+  .vehicle__column_thumbnails {
+    max-width: 15%;
+    order: 1;
+  }
+  .vehicle__column_main {
+    max-width: 35%;
+    order: 2;
+  }
+  .vehicle__column_main-full {
+    max-width: 50%;
+    order: 1;
+  }
+  .vehicle__column_text {
+    max-width: 50%;
+    order: 3;
+  }
+  .vehicle__thumbnail {
+    transition: transform 0.5s ease;
+  }
+  .vehicle__thumbnail:hover {
+    transform: scale(1.5);
+  }
+  .vehicle__thumbnails-container {
+    flex-direction: column;
+  }
+  .vehicle__info-list {
+    margin-top: 0;
+  }
+  .inv-img-container {
+    height: 150px;
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 1200px) {
+  body {
+    padding-top: 30px;
+  }
+  .wrapper {
+    max-width: 1200px;
+    border: 5px solid #2669a3;
+    border-radius: 10px;
+    margin: 0 auto;
+  }
+  .menu__item-link {
+    padding: 20px;
+  }
+  .description__text {
+    padding: 0 30px;
+  }
+  .own-today-button {
+    display: none;
+  }
+  .own-today-button_desktop {
+    display: block;
+  }
+  .description h2,
+  .description p {
+    font-size: 20px;
+  }
+  .reviews-upgrades-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 0 15px 60px;
+    margin: 20px -20px 0;
+  }
+  .reviews,
+  .upgrades {
+    width: 50%;
+    padding: 0 20px;
+  }
+  .reviews__item + .reviews__item {
+    margin-top: 20px;
+  }
+  .reviews-upgrades-wrapper .h1 {
+    margin-bottom: 25px;
+  }
+  .header-link {
+    font-size: 20px;
+    padding: 20px;
+  }
 }
