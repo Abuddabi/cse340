@@ -25,7 +25,11 @@ app.use(static)
 
 // Index route
 app.get("/", (req, res) => {
-  res.render("index", { title: "Home" })
+  res.render("index", { title: "Home", bodyClass: "home-page" })
+})
+
+app.get("/test", (req, res) => {
+  res.render("test", { title: "Test" })
 })
 
 /* ***********************
