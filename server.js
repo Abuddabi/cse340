@@ -48,8 +48,12 @@ app.use(async (req, res, next) => {
 app.use(async (err, req, res, next) => {
   const nav = await u.getNav()
 
-  if (err.status == 404) message = err.message
-  else {
+  if ((err.status == 404)
+    || (err.code == 400
+      && req.route.path === "/type/:classificationId")
+  ) {
+    message = err.message
+  } else {
     console.error(err)
     message = 'Oh no! There was a crash. Maybe try a different route?'
   }
@@ -71,6 +75,10 @@ const host = process.env.HOST || "localhost"
 /* ***********************
  * Log statement to confirm server operation
  *************************/
-app.listen(port, () => {
+app.listen(port, (err) => {
+  if (err) {
+    console.log(err)
+    return
+  }
   console.log(`app listening on ${host}:${port}`)
 })
