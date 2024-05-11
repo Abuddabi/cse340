@@ -48,7 +48,6 @@ app.use(async (req, res, next) => {
 *************************/
 app.use(async (err, req, res, next) => {
   const nav = await u.getNav()
-  console.log(err)
 
   if (err.code == 404 || err.status == 404) {
     message = err.message || "That page doesn't exist."
