@@ -7,18 +7,19 @@
  *************************/
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
+const static = require("./src/routes/static")
+const inventoryRoute = require("./src/routes/inventoryRoute")
+const baseController = require("./src/controllers/baseController")
+const u = require("./src/utilities/")
 const env = require("dotenv").config()
 const app = express()
-const static = require("./routes/static")
-const inventoryRoute = require("./routes/inventoryRoute")
-const baseController = require("./controllers/baseController")
-const u = require("./utilities/")
 
 /* ***********************
  * View Engine and Templates
  *************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
+app.set("views", "./src/views")
 app.set("layout", "./layouts/layout") // not at views root
 
 /* ***********************
@@ -38,7 +39,7 @@ app.get("/test", (req, res) => {
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
-  next({ status: 404, message: 'Sorry, we appear to have lost that page.' })
+  next({ code: 404, message: 'Sorry, we appear to have lost that page.' })
 })
 
 /* ***********************
@@ -47,19 +48,19 @@ app.use(async (req, res, next) => {
 *************************/
 app.use(async (err, req, res, next) => {
   const nav = await u.getNav()
+  console.log(err)
 
-  if ((err.status == 404)
-    || (err.code == 400
-      && req.route.path === "/type/:classificationId")
-  ) {
-    message = err.message
+  if (err.code == 404 || err.status == 404) {
+    message = err.message || "That page doesn't exist."
+    if (!err.status) err.status = "404 Not found"
+  } else if (err.code == 400) {
+    message = err.message || "Please, check the URL."
   } else {
-    console.error(err)
     message = 'Oh no! There was a crash. Maybe try a different route?'
   }
 
   res.render("errors/error", {
-    title: err.status || 'Server Error',
+    title: err.status || '500 Server Error',
     message,
     nav
   })
