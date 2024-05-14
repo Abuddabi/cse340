@@ -1,18 +1,35 @@
-/* ******************************************
- * This server.js file is the primary file of the 
- * application. It is used to control the project.
- *******************************************/
 /* ***********************
  * Require Statements
  *************************/
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
-const static = require("./src/routes/static")
-const inventoryRoute = require("./src/routes/inventoryRoute")
-const baseController = require("./src/controllers/baseController")
+const { buildHome } = require("./src/controllers/baseController")
 const u = require("./src/utilities/")
 const env = require("dotenv").config()
+const session = require("express-session")
+const pool = require('./database/')
 const app = express()
+
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
 
 /* ***********************
  * View Engine and Templates
@@ -25,13 +42,16 @@ app.set("layout", "./layouts/layout") // not at views root
 /* ***********************
  * Routes
  *************************/
-app.use(static)
+app.use(require("./src/routes/static"))
 
 // Index route
-app.get("/", u.handleErrors(baseController.buildHome))
+app.get("/", u.handleErrors(buildHome))
 
 // Inventory routes
-app.use("/inv", inventoryRoute)
+app.use("/inv", require("./src/routes/inventoryRoute"))
+
+// Account routes
+app.use("/account", require("./src/routes/accountRoute"))
 
 app.get("/test", (req, res) => {
   res.render("test", { title: "Test" })

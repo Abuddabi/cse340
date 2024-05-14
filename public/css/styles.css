@@ -32,6 +32,9 @@ p {
 .red {
   color: red;
 }
+.black {
+  color: black;
+}
 .bold {
   font-weight: bold;
 }
@@ -346,6 +349,89 @@ footer {
 }
 .vehicle__column {
   margin: 0 auto;
+}
+
+.form {
+  max-width: 80%;
+  margin: 0 auto;
+  background: var(--blue);
+  padding: 40px;
+  border-radius: 6px;
+}
+
+.input-line {
+  display: block;
+}
+
+.input-line span {
+  display: block;
+}
+
+.input-line + .input-line {
+  margin-top: 10px;
+}
+
+.form input {
+  padding: 5px;
+  min-width: 30%;
+}
+
+.form-submit-button {
+  margin-top: 10px;
+  background: white;
+  padding: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-submit-button:hover {
+  background: lightsteelblue;
+}
+
+.sign-up-suggestion {
+  margin-top: 20px;
+}
+
+.form-message {
+  padding-bottom: 5px;
+}
+
+.form-message_error {
+  color: red;
+}
+
+.form-message_success {
+  color: green;
+}
+
+.pb15 {
+  padding-bottom: 15px;
+}
+
+.form-note {
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+label.invalid > p {
+  color: red;
+}
+
+label.invalid > input,
+label.invalid > textarea {
+  border: 1px solid red;
+}
+
+input:required:invalid,
+input:focus:invalid {
+  background-image: url(/images/invalid.png);
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+input:required:valid {
+  background-image: url(/images/valid.png);
+  background-position: right top;
+  background-repeat: no-repeat;
 }
 
 /* MEDIA */

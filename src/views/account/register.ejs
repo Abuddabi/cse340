@@ -1,0 +1,25 @@
+<h1 class="h1"><%- title %></h1>
+<%- messages() %>
+
+<form method="POST" action="/account" class="form pb15">
+  <label class="input-line">
+    <span class="bold">First name</span>
+    <input type="text" name="account_firstname" required value="">
+  </label>
+  <label class="input-line">
+    <span class="bold">Last name</span>
+    <input type="text" name="account_lastname" required value="">
+  </label>
+  <label class="input-line">
+    <span class="bold">Email</span>
+    <input type="email" name="account_email" required value="">
+  </label>
+  <label class="input-line">
+    <span class="bold">Password</span>
+    <span>Password must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special
+      character</span>
+    <input type="password" name="account_password" required pattern="<?=getPasswordPattern()?>">
+  </label>
+  <input type="hidden" name="action" value="register">
+  <input class="form-submit-button" type="submit" name="submit" id="regbtn" value="Register">
+</form>

@@ -1,0 +1,16 @@
+<h1 class="h1"><%- title %></h1>
+<%- messages() %>
+
+<form method="POST" action="/account" class="form">
+  <label class="input-line">
+    <span class="bold">Email</span>
+    <input type="email" name="account_email" required value="">
+  </label>
+  <label class="input-line">
+    <span class="bold">Password</span>
+    <input type="password" name="account_password" required pattern="">
+  </label>
+  <input type="hidden" name="action" value="login-success">
+  <input class="form-submit-button" type="submit" name="submit" id="logbtn" value="Sign-in">
+  <p class="sign-up-suggestion">No account? <a class="black" href="/account/register">Sign-up</a></p>
+</form>
