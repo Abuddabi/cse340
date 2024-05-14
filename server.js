@@ -7,6 +7,7 @@ const { buildHome } = require("./src/controllers/baseController")
 const u = require("./src/utilities/")
 const env = require("dotenv").config()
 const session = require("express-session")
+const bodyParser = require("body-parser")
 const pool = require('./database/')
 const app = express()
 
@@ -30,6 +31,10 @@ app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res)
   next()
 })
+
+app.use(bodyParser.json())
+// for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }))
 
 /* ***********************
  * View Engine and Templates
@@ -68,6 +73,7 @@ app.use(async (req, res, next) => {
 *************************/
 app.use(async (err, req, res, next) => {
   const nav = await u.getNav()
+  let message
 
   if (err.code == 404 || err.status == 404) {
     message = err.message || "That page doesn't exist."

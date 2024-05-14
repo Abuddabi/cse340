@@ -73,9 +73,17 @@ body {
 }
 
 .notice {
-  color: red;
+  text-align: center;
   font-weight: bold;
   font-style: italic;
+  margin: 10px;
+  padding: 18px;
+  border-radius: 6px;
+  background-color: lightsteelblue;
+}
+
+.notice li {
+  list-style-type: none;
 }
 
 footer {
