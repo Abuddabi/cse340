@@ -86,6 +86,10 @@ body {
   list-style-type: none;
 }
 
+.notice_errors li:nth-child(even) {
+  color: #d00;
+}
+
 footer {
   padding: 10px;
   margin-top: 0;
@@ -435,11 +439,15 @@ input:focus:invalid {
   background-image: url(/images/invalid.png);
   background-position: right top;
   background-repeat: no-repeat;
+  border-right-color: red;
+  border-right-width: 3px;
 }
 input:required:valid {
   background-image: url(/images/valid.png);
   background-position: right top;
   background-repeat: no-repeat;
+  border-right-color: mediumaquamarine;
+  border-right-width: 3px;
 }
 
 /* MEDIA */

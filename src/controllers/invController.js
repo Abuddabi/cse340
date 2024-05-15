@@ -22,6 +22,7 @@ invController.buildByClassificationId = async function (req, res, next) {
     title: className + " vehicles",
     nav,
     grid,
+    errors: null,
   })
 }
 
@@ -39,7 +40,8 @@ invController.buildByItemId = async function (req, res, next) {
   res.render("./inventory/detail", {
     title: `${data.inv_make} ${data.inv_model}`,
     nav,
-    detail
+    detail,
+    errors: null,
   })
 }
 

@@ -72,6 +72,7 @@ app.use(async (req, res, next) => {
 * Place after all other middleware
 *************************/
 app.use(async (err, req, res, next) => {
+  console.log(err)
   const nav = await u.getNav()
   let message
 

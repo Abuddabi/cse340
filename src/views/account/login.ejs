@@ -4,11 +4,13 @@
 <form method="POST" action="/account" class="form">
   <label class="input-line">
     <span class="bold">Email</span>
-    <input type="email" name="account_email" required value="">
+    <input type="email" name="account_email" required placeholder="Enter a valid email address">
   </label>
   <label class="input-line">
     <span class="bold">Password</span>
-    <input type="password" name="account_password" required pattern="">
+    <span>Password must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special
+      character</span>
+    <input type="password" name="account_password" required pattern="<%- passwordPattern %>">
   </label>
   <input type="hidden" name="action" value="login-success">
   <input class="form-submit-button" type="submit" name="submit" id="logbtn" value="Sign-in">

@@ -1,19 +1,24 @@
 const utilities = require("../utilities/")
 const accountModel = require("../models/account-model")
+const { passwordPattern } = require("../utilities/account-validation")
 
 async function buildLogin(req, res) {
   const nav = await utilities.getNav()
   res.render("account/login", {
     title: "Login",
     nav,
+    passwordPattern,
+    errors: null,
   })
 }
 
 async function buildRegister(req, res, next) {
   const nav = await utilities.getNav()
-  res.render("account/register", {
+  res.render("account/registration", {
     title: "Register",
     nav,
+    passwordPattern,
+    errors: null,
   })
 }
 
@@ -39,12 +44,14 @@ async function registerAccount(req, res) {
     res.status(201).render("account/login", {
       title: "Login",
       nav,
+      errors: null
     })
   } else {
     req.flash("notice", "Sorry, the registration failed.")
     res.status(501).render("account/register", {
       title: "Registration",
       nav,
+      errors: null
     })
   }
 }
