@@ -1,8 +1,51 @@
 const utilities = require("./index")
 const { body, validationResult } = require("express-validator")
+const { checkExistingEmail } = require("../models/account-model")
 const validate = {}
 
 validate.passwordPattern = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\\W+)(?!.*\\s).{12,50}"
+
+validate.loginRules = () => {
+  return [
+    body("account_email")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isEmail()
+      .normalizeEmail() // refer to validator.js docs
+      .withMessage("A valid email is required."),
+
+    // password is required and must be strong password
+    body("account_password")
+      .trim()
+      .notEmpty()
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage("Password does not meet requirements."),
+  ]
+}
+
+validate.checkLogData = async (req, res, next) => {
+  const { account_email } = req.body
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const nav = await utilities.getNav()
+    res.render("account/login", {
+      title: "Login",
+      nav,
+      account_email,
+      errors,
+      passwordPattern: this.passwordPattern
+    })
+    return
+  }
+  next()
+}
 
 /*  **********************************
   *  Registration Data Validation Rules
@@ -32,7 +75,13 @@ validate.registrationRules = () => {
       .notEmpty()
       .isEmail()
       .normalizeEmail() // refer to validator.js docs
-      .withMessage("A valid email is required."),
+      .withMessage("A valid email is required.")
+      .custom(async (account_email) => {
+        const emailExists = await checkExistingEmail(account_email)
+        if (emailExists) {
+          throw new Error("Email exists. Please log in or use different email")
+        }
+      }),
 
     // password is required and must be strong password
     body("account_password")

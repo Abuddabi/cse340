@@ -44,6 +44,7 @@ async function registerAccount(req, res) {
     res.status(201).render("account/login", {
       title: "Login",
       nav,
+      passwordPattern,
       errors: null
     })
   } else {
@@ -51,6 +52,7 @@ async function registerAccount(req, res) {
     res.status(501).render("account/register", {
       title: "Registration",
       nav,
+      passwordPattern,
       errors: null
     })
   }

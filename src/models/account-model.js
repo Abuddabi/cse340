@@ -1,9 +1,15 @@
 const pool = require("../../database")
+const model = {}
 
 /* *****************************
 *   Register new account
 * *************************** */
-async function registerAccount(account_firstname, account_lastname, account_email, account_password) {
+model.registerAccount = async (
+  account_firstname,
+  account_lastname,
+  account_email,
+  account_password
+) => {
   try {
     const sql = `
       INSERT INTO account 
@@ -16,4 +22,19 @@ async function registerAccount(account_firstname, account_lastname, account_emai
   }
 }
 
-module.exports = { registerAccount }
+/* **********************
+ *   Check for existing email
+ * ********************* */
+model.checkExistingEmail = async (account_email) => {
+  try {
+    const email = await pool.query(`
+    SELECT * FROM account WHERE account_email = $1`,
+      [account_email])
+
+    return email.rowCount
+  } catch (error) {
+    return error.message
+  }
+}
+
+module.exports = model

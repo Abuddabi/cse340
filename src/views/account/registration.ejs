@@ -7,17 +7,17 @@
   <label class="input-line">
     <span class="bold">First name</span>
     <input type="text" name="account_firstname" required 
-      value="<%- typeof account_firstname !== 'undefined' ? account_firstname : '' %>">
+      value="<%- locals.account_firstname %>">
   </label>
   <label class="input-line">
     <span class="bold">Last name</span>
     <input type="text" name="account_lastname" required 
-      value="<%- typeof account_lastname !== 'undefined' ? account_lastname : '' %>">
+      value="<%- locals.account_lastname %>">
   </label>
   <label class="input-line">
     <span class="bold">Email</span>
     <input type="email" name="account_email" required 
-      value="<%- typeof account_email !== 'undefined' ? account_email : '' %>">
+      value="<%- locals.account_email %>">
   </label>
   <label class="input-line">
     <span class="bold">Password</span>

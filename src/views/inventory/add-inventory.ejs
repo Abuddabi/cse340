@@ -10,7 +10,7 @@
       type="text" 
       name="inv_make" 
       required
-      value="<%- formData ? formData.inv_make : "" %>"
+      value="<%- locals.inv_make %>"
       placeholder="Min of 3 characters"
       pattern="[a-zA-Z]{3,}"
     />
@@ -21,7 +21,7 @@
       type="text" 
       name="inv_model" 
       required
-      value="<%- formData ? formData.inv_model : "" %>"
+      value="<%- locals.inv_model %>"
       placeholder="Min of 3 characters"
       pattern="[a-zA-Z]{3,}"
     />
@@ -32,14 +32,14 @@
       type="number" 
       name="inv_year" 
       required
-      value="<%- formData ? formData.inv_year : "" %>"
+      value="<%- locals.inv_year %>"
       placeholder="4-digit year"
       pattern="[0-9]{4,4}"
     />
   </label>
   <label class="input-line">
     <span class="bold">Description</span>
-    <textarea name="inv_description" required rows="5"><%- formData ? formData.inv_description : "" %></textarea>
+    <textarea name="inv_description" required rows="5"><%- locals.inv_description %></textarea>
   </label>
   <label class="input-line">
     <span class="bold">Image path</span>
@@ -47,7 +47,7 @@
       type="text" 
       name="inv_image" 
       required
-      value="<%- formData ? formData.inv_image : "/images/vehicles/no-image.png" %>"
+      value="<%- locals.inv_image || "/images/vehicles/no-image.png" %>"
     />
   </label>
   <label class="input-line">
@@ -56,7 +56,7 @@
       type="text" 
       name="inv_thumbnail"
       required
-      value="<%- formData ? formData.inv_thumbnail : "/images/vehicles/no-image-tn.png" %>"
+      value="<%- locals.inv_thumbnail || "/images/vehicles/no-image-tn.png" %>"
     />
   </label>
   <label class="input-line">
@@ -65,7 +65,7 @@
       type="number" 
       name="inv_price"
       required
-      value="<%- formData ? formData.inv_price : "" %>"
+      value="<%- locals.inv_price %>"
       placeholder="Decimal or integer"
       pattern="^\d+(\.\d+)?"
     />
@@ -76,7 +76,7 @@
       type="number" 
       name="inv_miles"
       required
-      value="<%- formData ? formData.inv_miles : "" %>"
+      value="<%- locals.inv_miles %>"
       placeholder="digits only"
       pattern="\d+"
     />
@@ -87,7 +87,7 @@
     type="text" 
       name="inv_color"
       required
-      value="<%- formData ? formData.inv_color : "" %>"
+      value="<%- locals.inv_color %>"
     />
   </label>
   <label class="input-line">

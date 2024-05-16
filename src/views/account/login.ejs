@@ -1,10 +1,18 @@
 <h1 class="h1"><%- title %></h1>
 <%- messages() %>
 
-<form method="POST" action="/account" class="form">
+<%- include("../partials/errors") %>
+
+<form method="POST" action="/account/login" class="form">
   <label class="input-line">
     <span class="bold">Email</span>
-    <input type="email" name="account_email" required placeholder="Enter a valid email address">
+    <input 
+      type="email" 
+      name="account_email" 
+      required 
+      placeholder="Enter a valid email address"
+      value="<%= locals.account_email %>"
+    />
   </label>
   <label class="input-line">
     <span class="bold">Password</span>
