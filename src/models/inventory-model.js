@@ -1,18 +1,22 @@
 const pool = require("../../database")
 
+const model = {}
+
 /* ***************************
  *  Get all classification data
  * ************************** */
-async function getClassifications() {
+model.getClassifications = async () => {
   const data = await pool.query(
-    "SELECT * FROM public.classification ORDER BY classification_name"
+    `SELECT * FROM public.classification`
   )
+  // ORDER BY classification_name
   return data.rows
 }
 
-async function getClassificationById(classification_id) {
+model.getClassificationById = async (classification_id) => {
   const data = await pool.query(
-    "SELECT * FROM public.classification WHERE classification_id = $1 ORDER BY classification_name",
+    `SELECT * FROM public.classification 
+    WHERE classification_id = $1`,
     [classification_id]
   )
   return data.rows[0]
@@ -21,13 +25,13 @@ async function getClassificationById(classification_id) {
 /* ***************************
  *  Get all inventory items and classification_name by classification_id
  * ************************** */
-async function getInventoryByClassificationId(classification_id) {
+model.getInventoryByClassificationId = async (classification_id) => {
   try {
-    const data = await pool.query(
-      `SELECT * FROM public.inventory AS i 
-      JOIN public.classification AS c 
-      ON i.classification_id = c.classification_id 
-      WHERE i.classification_id = $1`,
+    const data = await pool.query(`
+      SELECT * FROM public.classification AS c
+      LEFT JOIN public.inventory AS i 
+      ON i.classification_id = c.classification_id
+      WHERE c.classification_id = $1`,
       [classification_id]
     )
     return data.rows
@@ -36,7 +40,7 @@ async function getInventoryByClassificationId(classification_id) {
   }
 }
 
-async function getItemById(item_id) {
+model.getItemById = async (item_id) => {
   try {
     const data = await pool.query(`
       SELECT * FROM public.inventory
@@ -49,9 +53,48 @@ async function getItemById(item_id) {
   }
 }
 
-module.exports = {
-  getClassifications,
-  getClassificationById,
-  getInventoryByClassificationId,
-  getItemById
+model.saveClassification = async (classification_name) => {
+  try {
+    const data = await pool.query(`
+      INSERT INTO public.classification(classification_name)
+      VALUES ($1)
+      RETURNING *`,
+      [classification_name]
+    )
+    return data
+  } catch (error) {
+    console.error("saveClassification error " + error)
+  }
 }
+
+model.saveInventory = async (formData) => {
+  try {
+    const data = await pool.query(`
+      INSERT INTO public.inventory(
+        inv_make, inv_model, inv_year, 
+        inv_description, inv_image,
+        inv_thumbnail, inv_price,
+        inv_miles, inv_color, 
+        classification_id)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+      RETURNING *`,
+      [
+        formData.inv_make,
+        formData.inv_model,
+        formData.inv_year,
+        formData.inv_description,
+        formData.inv_image,
+        formData.inv_thumbnail,
+        formData.inv_price,
+        formData.inv_miles,
+        formData.inv_color,
+        formData.classification_id,
+      ]
+    )
+    return data
+  } catch (error) {
+    console.error("saveInventory error " + error)
+  }
+}
+
+module.exports = model

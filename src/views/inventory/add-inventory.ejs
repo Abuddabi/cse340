@@ -1,0 +1,100 @@
+<h1 class="h1"><%- title %></h1>
+<%- messages() %>
+
+<%- include("../partials/errors") %>
+
+<form method="POST" action="/inv/add-inventory" class="form pb15">
+  <label class="input-line">
+    <span class="bold">Make</span>
+    <input 
+      type="text" 
+      name="inv_make" 
+      required
+      value="<%- formData ? formData.inv_make : "" %>"
+      placeholder="Min of 3 characters"
+      pattern="[a-zA-Z]{3,}"
+    />
+  </label>
+  <label class="input-line">
+    <span class="bold">Model</span>
+    <input 
+      type="text" 
+      name="inv_model" 
+      required
+      value="<%- formData ? formData.inv_model : "" %>"
+      placeholder="Min of 3 characters"
+      pattern="[a-zA-Z]{3,}"
+    />
+  </label>
+  <label class="input-line">
+    <span class="bold">Year</span>
+    <input 
+      type="number" 
+      name="inv_year" 
+      required
+      value="<%- formData ? formData.inv_year : "" %>"
+      placeholder="4-digit year"
+      pattern="[0-9]{4,4}"
+    />
+  </label>
+  <label class="input-line">
+    <span class="bold">Description</span>
+    <textarea name="inv_description" required rows="5"><%- formData ? formData.inv_description : "" %></textarea>
+  </label>
+  <label class="input-line">
+    <span class="bold">Image path</span>
+    <input 
+      type="text" 
+      name="inv_image" 
+      required
+      value="<%- formData ? formData.inv_image : "/images/vehicles/no-image.png" %>"
+    />
+  </label>
+  <label class="input-line">
+    <span class="bold">Thumbnail path</span>
+    <input 
+      type="text" 
+      name="inv_thumbnail"
+      required
+      value="<%- formData ? formData.inv_thumbnail : "/images/vehicles/no-image-tn.png" %>"
+    />
+  </label>
+  <label class="input-line">
+    <span class="bold">Price</span>
+    <input 
+      type="number" 
+      name="inv_price"
+      required
+      value="<%- formData ? formData.inv_price : "" %>"
+      placeholder="Decimal or integer"
+      pattern="^\d+(\.\d+)?"
+    />
+  </label>
+  <label class="input-line">
+    <span class="bold">Miles</span>
+    <input 
+      type="number" 
+      name="inv_miles"
+      required
+      value="<%- formData ? formData.inv_miles : "" %>"
+      placeholder="digits only"
+      pattern="\d+"
+    />
+  </label>
+  <label class="input-line">
+    <span class="bold">Color</span>
+    <input 
+    type="text" 
+      name="inv_color"
+      required
+      value="<%- formData ? formData.inv_color : "" %>"
+    />
+  </label>
+  <label class="input-line">
+    <span class="bold">Classification</span>
+    <%- classificationList %>
+  </label>
+  <label class="input-line">
+    <input class="form-submit-button" type="submit" name="submit" id="submitBtn" value="Submit">
+  </label>
+</form>

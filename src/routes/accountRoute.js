@@ -13,4 +13,4 @@ router.post("/register",
   u.handleErrors(ctrl.registerAccount)
 );
 
-module.exports = router;  
+module.exports = router;    

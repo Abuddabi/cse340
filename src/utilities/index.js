@@ -45,10 +45,10 @@ Util.buildClassificationGrid = async function (data) {
   }
 
   let grid
-  if (data.length > 0) {
-    grid = `<ul id="inv-display">${data.map(vehicle => createHTML(vehicle)).join("")}</ul>`
+  if (data[0].inv_id === null) {
+    grid = `<p class="notice">Sorry, no vehicles could be found in this classification.</p>`
   } else {
-    grid = `<p class="notice">Sorry, no matching vehicles could be found.</p>`
+    grid = `<ul id="inv-display">${data.map(vehicle => createHTML(vehicle)).join("")}</ul>`
   }
   return grid
 }
@@ -110,6 +110,19 @@ Util.buildDetailPage = async function (data) {
     `
 }
 
+Util.buildClassificationList = async function (classification_id = null) {
+  const classifications = await invModel.getClassifications()
+  return `
+  <select name="classification_id" id="classificationList" required>
+    <option value="">Choose a Classification</option>
+    ${classifications.map(row => {
+    const selected = classification_id !== null && row.classification_id == classification_id ? "selected" : ""
+    return `
+    <option value="${row.classification_id}" ${selected}>${row.classification_name}</option>
+    `}).join("")}
+  </select>`
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
@@ -118,5 +131,7 @@ Util.buildDetailPage = async function (data) {
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch((err) => next(err))
 
 Util.formatNumber = number => new Intl.NumberFormat('en-US').format(number)
+
+Util.ifExists = value => typeof value !== 'undefined' ? value : ''
 
 module.exports = Util

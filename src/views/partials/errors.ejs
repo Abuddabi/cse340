@@ -1,0 +1,8 @@
+<% if (errors) { %>
+<ul class="notice notice_errors">
+  <li>Validation errors</li>
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>

@@ -1,0 +1,8 @@
+<h1 class="h1"><%- title || "Vehicles management" %></h1>
+<%- messages() %>
+
+<div class="management-links">
+  <% Object.keys(links).forEach(linkName=> { %>
+  <a href="<%= links[linkName] %>">Add new <%= linkName %></a>
+  <% }) %>
+</div>

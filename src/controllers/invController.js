@@ -18,7 +18,7 @@ invController.buildByClassificationId = async function (req, res, next) {
   const nav = await utilities.getNav(classification_id)
   const className = data[0].classification_name
 
-  res.render("./inventory/classification", {
+  res.render("inventory/classification", {
     title: className + " vehicles",
     nav,
     grid,
@@ -37,12 +37,100 @@ invController.buildByItemId = async function (req, res, next) {
   const nav = await utilities.getNav(data.classification_id)
   const detail = await utilities.buildDetailPage(data)
 
-  res.render("./inventory/detail", {
+  res.render("inventory/detail", {
     title: `${data.inv_make} ${data.inv_model}`,
     nav,
     detail,
     errors: null,
   })
+}
+
+invController.buildManagementPage = async (req, res) => {
+  const nav = await utilities.getNav()
+  const links = {
+    "classification": "/inv/add-classification",
+    "inventory": "/inv/add-inventory"
+  }
+
+  res.render("inventory/management", {
+    title: "Vehicles management",
+    nav,
+    links,
+    errors: null,
+  })
+}
+
+invController.buildAddClassification = async (req, res) => {
+  const nav = await utilities.getNav()
+
+  res.render("inventory/add-classification", {
+    title: "Add new classification",
+    nav,
+    errors: null,
+  })
+}
+
+invController.addClassification = async (req, res) => {
+  const { classification_name } = req.body
+  const saveResult = await invModel.saveClassification(classification_name)
+  const nav = await utilities.getNav()
+
+  const vars = {
+    title: "Add new classification",
+    nav,
+    errors: null
+  }
+
+  if (saveResult) {
+    req.flash(
+      "notice",
+      `Congratulations, a new classification - ${classification_name} was successfully saved.`
+    )
+    res.status(201).render("inventory/add-classification", vars)
+  } else {
+    req.flash("notice", `Sorry, a new classification - ${classification_name} was not saved.`)
+    res.status(501).render("inventory/add-classification", vars)
+  }
+}
+
+invController.buildAddInventory = async (req, res) => {
+  const nav = await utilities.getNav()
+  const classificationList = await utilities.buildClassificationList()
+
+  res.render("inventory/add-inventory", {
+    title: "Add new inventory item",
+    nav,
+    classificationList,
+    errors: null,
+    formData: null
+  })
+}
+
+invController.addInventory = async (req, res) => {
+  const saveResult = await invModel.saveInventory(req.body)
+  const nav = await utilities.getNav()
+  const classificationList = await utilities.buildClassificationList(req.body.classification_id)
+
+  const vars = {
+    title: "Add new inventory item",
+    nav,
+    classificationList,
+    errors: null,
+    formData: req.body
+  }
+
+  if (saveResult) {
+    req.flash(
+      "notice",
+      `Congratulations, a new inventory item - 
+      ${req.body.inv_make} ${req.body.inv_model} was successfully saved.`
+    )
+    res.status(201).render("inventory/add-inventory", vars)
+  } else {
+    req.flash("notice",
+      `Sorry, an inventory item - ${req.body.inv_make} ${req.body.inv_model} was not saved.`)
+    res.status(501).render("inventory/add-inventory", vars)
+  }
 }
 
 function generateError(errorText, code = 400) {

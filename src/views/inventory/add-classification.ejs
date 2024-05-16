@@ -1,0 +1,21 @@
+<h1 class="h1"><%- title %></h1>
+<%- messages() %>
+
+<%- include("../partials/errors") %>
+
+<form method="POST" action="/inv/add-classification" class="form pb15">
+  <label class="input-line">
+    <span class="bold">Classification name</span>
+    <span>New classification name cannot contain a space or special character of any kind.</span>
+    <input 
+      type="text" 
+      name="classification_name" 
+      required 
+      pattern="[a-zA-Z0-9]+"
+      value="<%- typeof classification_name !== 'undefined' ? classification_name : '' %>"
+    />
+  </label>
+  <label class="input-line">
+    <input class="form-submit-button" type="submit" name="submit" id="submitBtn" value="Add classification">
+  </label>
+</form>
