@@ -47,6 +47,7 @@ invController.buildByItemId = async function (req, res, next) {
 
 invController.buildManagementPage = async (req, res) => {
   const nav = await utilities.getNav()
+  const classificationList = await utilities.buildClassificationList()
   const links = {
     "classification": "/inv/add-classification",
     "inventory": "/inv/add-inventory"
@@ -54,10 +55,22 @@ invController.buildManagementPage = async (req, res) => {
 
   res.render("inventory/management", {
     title: "Vehicles management",
+    bodyClass: "vehicle-management",
     nav,
     links,
     errors: null,
+    classificationList
   })
+}
+
+invController.getInventoryJSON = async (req, res, next) => {
+  const classification_id = parseInt(req.params.classification_id)
+  const invData = await invModel.getInventoryByClassificationId(classification_id)
+  if (invData[0].inv_id) {
+    return res.json(invData)
+  } else {
+    next(new Error("No data returned"))
+  }
 }
 
 invController.buildAddClassification = async (req, res) => {

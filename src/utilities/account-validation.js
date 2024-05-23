@@ -4,6 +4,7 @@ const { checkExistingEmail } = require("../models/account-model")
 const validate = {}
 
 validate.passwordPattern = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\\W+)(?!.*\\s).{12,50}"
+const passwordPattern = validate.passwordPattern
 
 validate.loginRules = () => {
   return [
@@ -13,7 +14,13 @@ validate.loginRules = () => {
       .notEmpty()
       .isEmail()
       .normalizeEmail() // refer to validator.js docs
-      .withMessage("A valid email is required."),
+      .withMessage("A valid email is required.")
+      .custom(async (account_email) => {
+        const emailExists = await checkExistingEmail(account_email)
+        if (!emailExists) {
+          throw new Error("Wrong email. Please register or use different email")
+        }
+      }),
 
     // password is required and must be strong password
     body("account_password")
@@ -40,7 +47,7 @@ validate.checkLogData = async (req, res, next) => {
       nav,
       account_email,
       errors,
-      passwordPattern: this.passwordPattern
+      passwordPattern
     })
     return
   }
@@ -113,7 +120,7 @@ validate.checkRegData = async (req, res, next) => {
       account_lastname,
       account_email,
       errors,
-      passwordPattern: this.passwordPattern
+      passwordPattern
     })
     return
   }

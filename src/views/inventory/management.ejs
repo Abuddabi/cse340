@@ -6,3 +6,9 @@
   <a href="<%= links[linkName] %>">Add new <%= linkName %></a>
   <% }) %>
 </div>
+<h2>Manage Inventory</h2>
+<p>Select a classification to see those inventory</p>
+<%- classificationList %>
+<table id="inventoryDisplay"></table>
+<noscript>JavaScript must be enabled to use this page.</noscript>
+<script src="../../js/inventory.js"></script>

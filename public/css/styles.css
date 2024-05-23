@@ -479,6 +479,44 @@ input:required:valid {
   margin-left: 15px;
 }
 
+.vehicle-management #classificationList {
+  margin-top: 12px;
+  font-size: 16px;
+  padding: 8px;
+}
+
+#inventoryDisplay {
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
+}
+#inventoryDisplay th,
+#inventoryDisplay td {
+  padding: 12px 15px;
+}
+#inventoryDisplay thead {
+  background-color: #009879;
+  background-color: var(--blue);
+  color: #ffffff;
+}
+#inventoryDisplay tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+#inventoryDisplay tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+#inventoryDisplay tbody tr:hover {
+  background-color: lightcyan;
+}
+#inventoryDisplay td a {
+  color: #009879;
+  text-decoration: none;
+}
+#inventoryDisplay td a:hover {
+  text-decoration: underline;
+}
+
 /* MEDIA */
 
 @media (min-width: 500px) {
@@ -553,6 +591,9 @@ input:required:valid {
   }
   .input-line {
     text-align: center;
+  }
+  .vehicle-management main {
+    padding: 0 25px 25px;
   }
 }
 

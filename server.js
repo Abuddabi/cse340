@@ -9,6 +9,7 @@ const env = require("dotenv").config()
 const session = require("express-session")
 const bodyParser = require("body-parser")
 const pool = require('./database/')
+const cookieParser = require("cookie-parser")
 const app = express()
 
 /* ***********************
@@ -35,6 +36,8 @@ app.use(function (req, res, next) {
 app.use(bodyParser.json())
 // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cookieParser())
+app.use(u.checkJWTToken)
 
 /* ***********************
  * View Engine and Templates

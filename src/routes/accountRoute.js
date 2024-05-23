@@ -5,15 +5,14 @@ const u = require("../utilities/")
 const ctrl = require("../controllers/accountController")
 const validation = require('../utilities/account-validation')
 
+router.get("/", u.checkLogin, u.handleErrors(ctrl.buildAccount));
+
 router.get("/login", u.handleErrors(ctrl.buildLogin));
 // Process the login attempt
-router.post(
-  "/login",
+router.post("/login",
   validation.loginRules(),
   validation.checkLogData,
-  (req, res) => {
-    res.status(200).send('login process')
-  }
+  u.handleErrors(ctrl.accountLogin)
 )
 
 router.get("/register", u.handleErrors(ctrl.buildRegister));
