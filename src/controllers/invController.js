@@ -1,12 +1,12 @@
 const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
 
-const invController = {}
+const ctrl = {}
 
 /* ***************************
  *  Build inventory by classification view
  * ************************** */
-invController.buildByClassificationId = async function (req, res, next) {
+ctrl.buildByClassificationId = async function (req, res, next) {
   const classification_id = req.params.classificationId
   const isNumber = /^[0-9]+$/.test(classification_id)
   if (!isNumber) throw generateError("Wrong classification id in the URL. Should be a number.")
@@ -26,7 +26,7 @@ invController.buildByClassificationId = async function (req, res, next) {
   })
 }
 
-invController.buildByItemId = async function (req, res, next) {
+ctrl.buildByItemId = async function (req, res, next) {
   const item_id = req.params.itemId
   const isNumber = /^[0-9]+$/.test(item_id)
   if (!isNumber) throw generateError("Wrong Item id in the URL. Should be a number.")
@@ -45,7 +45,7 @@ invController.buildByItemId = async function (req, res, next) {
   })
 }
 
-invController.buildManagementPage = async (req, res) => {
+ctrl.buildManagementPage = async (req, res) => {
   const nav = await utilities.getNav()
   const classificationList = await utilities.buildClassificationList()
   const links = {
@@ -63,7 +63,7 @@ invController.buildManagementPage = async (req, res) => {
   })
 }
 
-invController.getInventoryJSON = async (req, res, next) => {
+ctrl.getInventoryJSON = async (req, res, next) => {
   const classification_id = parseInt(req.params.classification_id)
   const invData = await invModel.getInventoryByClassificationId(classification_id)
   if (invData[0].inv_id) {
@@ -73,7 +73,7 @@ invController.getInventoryJSON = async (req, res, next) => {
   }
 }
 
-invController.buildAddClassification = async (req, res) => {
+ctrl.buildAddClassification = async (req, res) => {
   const nav = await utilities.getNav()
 
   res.render("inventory/add-classification", {
@@ -83,7 +83,7 @@ invController.buildAddClassification = async (req, res) => {
   })
 }
 
-invController.addClassification = async (req, res) => {
+ctrl.addClassification = async (req, res) => {
   const { classification_name } = req.body
   const saveResult = await invModel.saveClassification(classification_name)
   const nav = await utilities.getNav()
@@ -106,7 +106,7 @@ invController.addClassification = async (req, res) => {
   }
 }
 
-invController.buildAddInventory = async (req, res) => {
+ctrl.buildAddInventory = async (req, res) => {
   const nav = await utilities.getNav()
   const classificationList = await utilities.buildClassificationList()
 
@@ -119,7 +119,7 @@ invController.buildAddInventory = async (req, res) => {
   })
 }
 
-invController.addInventory = async (req, res) => {
+ctrl.addInventory = async (req, res) => {
   const saveResult = await invModel.saveInventory(req.body)
   const nav = await utilities.getNav()
   const classificationList = await utilities.buildClassificationList(req.body.classification_id)
@@ -146,6 +146,45 @@ invController.addInventory = async (req, res) => {
   }
 }
 
+ctrl.buildEditInventory = async (req, res) => {
+  const inv_id = parseInt(req.params.itemId)
+  const nav = await utilities.getNav()
+  const itemData = await invModel.getItemById(inv_id)
+  const classificationList = await utilities.buildClassificationList(itemData.classification_id)
+  const itemName = `${itemData.inv_make} ${itemData.inv_model}`
+
+  res.render("inventory/edit-inventory", {
+    title: `Edit ${itemName}`,
+    nav,
+    classificationList,
+    errors: null,
+    formData: itemData
+  })
+}
+
+ctrl.updateInventory = async (req, res) => {
+  const nav = await utilities.getNav()
+  const formData = req.body
+  const updateResult = await invModel.updateInventory(formData)
+
+  if (updateResult) {
+    const itemName = `${updateResult.inv_make} ${updateResult.inv_model}`
+    req.flash("notice", `The ${itemName} was successfully updated.`)
+    res.redirect("/inv/")
+  } else {
+    const classificationList = await utilities.buildClassificationList(formData.classification_id)
+    const itemName = `${formData.inv_make} ${formData.inv_model}`
+    req.flash("notice", "Sorry, the insert failed.")
+    res.status(501).render("inventory/edit-inventory", {
+      title: "Edit " + itemName,
+      nav,
+      classificationList,
+      errors: null,
+      formData
+    })
+  }
+}
+
 function generateError(errorText, code = 400) {
   const statusText = code == 400 ? "Bad request" : code == 404 ? "Not found" : ""
   const newError = new Error(errorText)
@@ -155,4 +194,4 @@ function generateError(errorText, code = 400) {
   return newError
 }
 
-module.exports = invController
+module.exports = ctrl

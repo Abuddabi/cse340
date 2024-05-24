@@ -112,13 +112,13 @@ Util.buildDetailPage = async function (data) {
     `
 }
 
-Util.buildClassificationList = async function (classification_id = null) {
+Util.buildClassificationList = async function (active_id = null) {
   const classifications = await invModel.getClassifications()
   return `
   <select name="classification_id" id="classificationList" required>
     <option value="">Choose a Classification</option>
     ${classifications.map(row => {
-    const selected = classification_id !== null && row.classification_id == classification_id ? "selected" : ""
+    const selected = active_id !== null && row.classification_id == active_id ? "selected" : ""
     return `
     <option value="${row.classification_id}" ${selected}>${row.classification_name}</option>
     `}).join("")}

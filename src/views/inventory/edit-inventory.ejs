@@ -3,7 +3,7 @@
 
 <%- include("../partials/errors") %>
 
-<form method="POST" action="/inv/add-inventory" class="form pb15">
+<form id="updateForm" method="POST" action="/inv/update" class="form pb15">
   <label class="input-line">
     <span class="bold">Make</span>
     <input 
@@ -95,6 +95,10 @@
     <%- classificationList %>
   </label>
   <label class="input-line">
-    <input class="form-submit-button" type="submit" name="submit" id="submitBtn" value="Submit">
+    <input class="form-submit-button" type="submit" name="submit" id="submitBtn" value="Update Vehicle" disabled>
+    <input type="hidden" name="inv_id" value="<%- locals.formData?.inv_id %>">
   </label>
 </form>
+
+<noscript>JavaScript must be enabled to use this page.</noscript>
+<script src="../../js/inv-update.js"></script>

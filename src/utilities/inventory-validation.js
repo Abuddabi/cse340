@@ -131,4 +131,37 @@ validate.checkInventoryData = async (req, res, next) => {
   next()
 }
 
+validate.inventoryUpdateRules = () => {
+  const resultArray = this.inventoryRules();
+  resultArray.push(
+    body("inv_id")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isNumeric()
+      .withMessage("Validation error.")
+  );
+
+  return resultArray;
+}
+
+validate.checkUpdateData = async (req, res, next) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const nav = await utilities.getNav()
+    const formData = req.body
+    const classificationList = await utilities.buildClassificationList(formData.classification_id)
+
+    res.render("inventory/edit-inventory", {
+      title: `Edit ${formData.inv_make} ${formData.inv_model}`,
+      nav,
+      formData,
+      errors,
+      classificationList
+    })
+    return
+  }
+  next()
+}
+
 module.exports = validate

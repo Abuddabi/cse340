@@ -404,8 +404,16 @@ footer {
   cursor: pointer;
 }
 
+.form-submit-button[disabled] {
+  cursor: default;
+}
+
 .form-submit-button:hover {
   background: lightsteelblue;
+}
+
+.form-submit-button[disabled]:hover {
+  background: white;
 }
 
 .sign-up-suggestion {
