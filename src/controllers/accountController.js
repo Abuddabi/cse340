@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs")
 const { passwordPattern } = require("../utilities/account-validation")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
+
 const ctrl = {}
 
 ctrl.buildAccount = async (req, res, next) => {

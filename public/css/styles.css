@@ -525,6 +525,14 @@ input:required:valid {
   text-decoration: underline;
 }
 
+.delete-confirmation-text {
+  color: #df3434;
+  font-weight: bold;
+  padding: 5px;
+  text-shadow: 1px 1px 1px #000;
+  letter-spacing: 1px;
+}
+
 /* MEDIA */
 
 @media (min-width: 500px) {

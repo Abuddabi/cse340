@@ -137,4 +137,15 @@ model.updateInventory = async (formData) => {
   }
 }
 
+model.deleteInventory = async (inv_id) => {
+  try {
+    const data = await pool.query(`
+      DELETE FROM inventory WHERE inv_id = $1
+    `, [inv_id])
+    return data
+  } catch (error) {
+    console.error("deleteInventory error " + error)
+  }
+}
+
 module.exports = model

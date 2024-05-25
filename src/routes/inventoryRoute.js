@@ -8,7 +8,7 @@ const invValidate = require("../utilities/inventory-validation")
 // Inventory management 
 router.get("/", handleErrors(ctrl.buildManagementPage))
 
-router.get("/type/:classificationId", handleErrors(ctrl.buildByClassificationId))
+router.get("/type/:classification_id", handleErrors(ctrl.buildByClassificationId))
 router.get("/detail/:itemId", handleErrors(ctrl.buildByItemId))
 
 router.get("/add-classification", handleErrors(ctrl.buildAddClassification))
@@ -27,11 +27,14 @@ router.post("/add-inventory",
 
 router.get("/getInventory/:classification_id", handleErrors(ctrl.getInventoryJSON))
 
-router.get("/edit/:itemId", handleErrors(ctrl.buildEditInventory))
+router.get("/edit/:item_id", handleErrors(ctrl.buildEditInventory))
 router.post("/update",
   invValidate.inventoryRules(),
   invValidate.checkUpdateData,
   handleErrors(ctrl.updateInventory)
 )
+
+router.get("/delete/:item_id", handleErrors(ctrl.buildDeleteInventory))
+router.post("/delete", handleErrors(ctrl.deleteInventory))
 
 module.exports = router

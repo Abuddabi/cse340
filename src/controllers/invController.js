@@ -7,7 +7,7 @@ const ctrl = {}
  *  Build inventory by classification view
  * ************************** */
 ctrl.buildByClassificationId = async function (req, res, next) {
-  const classification_id = req.params.classificationId
+  const classification_id = req.params.classification_id
   const isNumber = /^[0-9]+$/.test(classification_id)
   if (!isNumber) throw generateError("Wrong classification id in the URL. Should be a number.")
 
@@ -147,7 +147,7 @@ ctrl.addInventory = async (req, res) => {
 }
 
 ctrl.buildEditInventory = async (req, res) => {
-  const inv_id = parseInt(req.params.itemId)
+  const inv_id = parseInt(req.params.item_id)
   const nav = await utilities.getNav()
   const itemData = await invModel.getItemById(inv_id)
   const classificationList = await utilities.buildClassificationList(itemData.classification_id)
@@ -163,7 +163,6 @@ ctrl.buildEditInventory = async (req, res) => {
 }
 
 ctrl.updateInventory = async (req, res) => {
-  const nav = await utilities.getNav()
   const formData = req.body
   const updateResult = await invModel.updateInventory(formData)
 
@@ -172,6 +171,7 @@ ctrl.updateInventory = async (req, res) => {
     req.flash("notice", `The ${itemName} was successfully updated.`)
     res.redirect("/inv/")
   } else {
+    const nav = await utilities.getNav()
     const classificationList = await utilities.buildClassificationList(formData.classification_id)
     const itemName = `${formData.inv_make} ${formData.inv_model}`
     req.flash("notice", "Sorry, the insert failed.")
@@ -181,6 +181,43 @@ ctrl.updateInventory = async (req, res) => {
       classificationList,
       errors: null,
       formData
+    })
+  }
+}
+
+ctrl.buildDeleteInventory = async (req, res) => {
+  const inv_id = parseInt(req.params.item_id)
+  const itemData = await invModel.getItemById(inv_id)
+  if (!itemData) throw generateError("Wrong URL. Check the inventory id.", 404)
+  const itemName = `${itemData.inv_make} ${itemData.inv_model}`
+  const nav = await utilities.getNav()
+
+  res.render("inventory/delete-confirm", {
+    title: `Delete ${itemName}`,
+    nav,
+    errors: null,
+    formData: itemData
+  })
+}
+
+ctrl.deleteInventory = async (req, res) => {
+  const inv_id = parseInt(req.body.inv_id)
+  const deleteResult = await invModel.deleteInventory(inv_id)
+  const itemName = `${req.body.inv_make} ${req.body.inv_model}`
+
+  if (deleteResult) {
+    console.log(deleteResult);
+    // const itemName = `${deleteResult.inv_make} ${deleteResult.inv_model}`
+    req.flash("notice", `The ${itemName} was successfully deleted.`)
+    res.redirect("/inv/")
+  } else {
+    const nav = await utilities.getNav()
+    req.flash("notice", "Sorry, the deletion failed.")
+    res.status(501).render("inventory/delete-confirm", {
+      title: "Delete " + itemName,
+      nav,
+      errors: null,
+      formData: req.body
     })
   }
 }

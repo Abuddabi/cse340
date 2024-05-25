@@ -1,0 +1,32 @@
+<h1 class="h1"><%- title %></h1>
+<%- messages() %>
+
+<%- include("../partials/errors") %>
+
+<form id="deleteForm" method="POST" action="/inv/delete" class="form pb15">
+  <label class="input-line">
+    <span class="bold">Make</span>
+    <input readonly type="text" name="inv_make" value="<%- locals.formData?.inv_make %>"
+      placeholder="Min of 3 characters" pattern="[a-zA-Z ]{3,}" />
+  </label>
+  <label class="input-line">
+    <span class="bold">Model</span>
+    <input readonly type="text" name="inv_model" value="<%- locals.formData?.inv_model %>"
+      placeholder="Min of 3 characters" pattern="[a-zA-Z ]{3,}" />
+  </label>
+  <label class="input-line">
+    <span class="bold">Year</span>
+    <input readonly type="number" name="inv_year" value="<%- locals.formData?.inv_year %>"
+      placeholder="4-digit year" pattern="[0-9]{4,4}" />
+  </label>
+  <label class="input-line">
+    <span class="bold">Price</span>
+    <input readonly type="number" name="inv_price" value="<%- locals.formData?.inv_price %>"
+      placeholder="Decimal or integer" pattern="^\d+(\.\d+)?" />
+  </label>
+  <label class="input-line">
+    <p class="delete-confirmation-text">Confirm Deletion - The delete is permanent.</p>
+    <input class="form-submit-button" type="submit" name="submit" id="submitBtn" value="Delete Vehicle">
+    <input type="hidden" name="inv_id" value="<%- locals.formData?.inv_id %>">
+  </label>
+</form>
