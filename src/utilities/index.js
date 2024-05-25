@@ -159,6 +159,24 @@ Util.checkJWTToken = (req, res, next) => {
   }
 }
 
+Util.checkAuthLevel = (req, res, next) => {
+  if (!res.locals.loggedin) {
+    req.flash("notice", "Please log in.");
+    return res.redirect("/account/login");
+  }
+
+  const accountType = res.locals.accountData.account_type;
+
+  if (accountType === "Admin" || accountType === "Employee") {
+    next();
+  } else {
+    req.flash("notice",
+      `Your account has type ${accountType}. 
+      You don't have access to ${req.originalUrl}. Ask Admin to give you rights for that.`);
+    res.redirect(req.header('Referer') || '/');
+  }
+}
+
 /* ****************************************
  *  Check Login
  * ************************************ */

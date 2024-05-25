@@ -52,6 +52,7 @@ ctrl.accountLogin = async (req, res) => {
       if (process.env.NODE_ENV !== 'development') options.secure = true // https only
 
       res.cookie("jwt", accessToken, options)
+
       return res.redirect("/account/")
     }
   } catch (error) {
@@ -114,6 +115,11 @@ ctrl.registerAccount = async (req, res) => {
     req.flash("notice", "Sorry, the registration failed.")
     res.status(501).render("account/registration", regVars)
   }
+}
+
+ctrl.logout = async (req, res) => {
+  res.clearCookie("jwt")
+  return res.redirect("/")
 }
 
 module.exports = ctrl

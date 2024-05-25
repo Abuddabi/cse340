@@ -17,9 +17,11 @@ router.post("/login",
 
 router.get("/register", u.handleErrors(ctrl.buildRegister));
 router.post("/register",
-  validation.registrationRules(),
+  validation.registrationRules(), 
   validation.checkRegData,
   u.handleErrors(ctrl.registerAccount)
 );
+
+router.get("/logout", u.handleErrors(ctrl.logout));
 
 module.exports = router;    
