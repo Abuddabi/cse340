@@ -32,4 +32,11 @@ router.post("/update/:account_id",
   u.handleErrors(ctrl.updateAccount)
 );
 
+router.post("/update-password/:account_id",
+  // u.addAccountDataToReq,
+  validation.updatePasswordRules(),
+  validation.checkUpdatePasswordData,
+  u.handleErrors(ctrl.updatePassword)
+);
+
 module.exports = router;    

@@ -8,17 +8,17 @@
   <label class="input-line">
     <span class="bold">First name</span>
     <input type="text" name="account_firstname" required 
-    value="<%- locals.accountData.account_firstname %>">
+    value="<%- formData?.account_firstname || locals.accountData.account_firstname %>">
   </label>
   <label class="input-line">
     <span class="bold">Last name</span>
     <input type="text" name="account_lastname" required 
-      value="<%- locals.accountData.account_lastname %>">
+      value="<%-  formData?.account_lastname || locals.accountData.account_lastname %>">
   </label>
   <label class="input-line">
     <span class="bold">Email</span>
     <input type="email" name="account_email" required 
-    value="<%- locals.accountData.account_email %>">
+    value="<%-  formData?.account_email || locals.accountData.account_email %>">
   </label>
   <label class="input-line">
     <input class="form-submit-button" type="submit" name="submit" id="updateBtn" value="Update">
@@ -26,7 +26,7 @@
   </label>
 </form>
 
-<form method="POST" action="/account/update/<%- locals.accountData.account_id %>" class="form form-password">
+<form method="POST" action="/account/update-password/<%- locals.accountData.account_id %>" class="form form-password">
   <h2 class="form-title">Change Password Form</h2>
   <label class="input-line">
     <span>By entering a password it will change the current password.</span>

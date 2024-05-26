@@ -219,4 +219,13 @@ Util.addAccountDataToReq = (req, res, next) => {
   next();
 }
 
+Util.getDataForJWT = (accountData) => {
+  delete accountData.account_password
+  const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 }) // in seconds
+  const options = { httpOnly: true, maxAge: 3600 * 1000 } // in milliseconds
+  if (process.env.NODE_ENV !== 'development') options.secure = true // https only
+
+  return { accessToken, options };
+}
+
 module.exports = Util

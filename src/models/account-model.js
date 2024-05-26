@@ -53,6 +53,19 @@ model.getAccountByEmail = async (account_email) => {
   }
 }
 
+model.getAccountById = async (account_id) => {
+  try {
+    const result = await pool.query(`
+      SELECT *
+      FROM account 
+      WHERE account_id = $1`,
+      [account_id])
+    return result.rows[0]
+  } catch (error) {
+    return new Error("No matching account found")
+  }
+}
+
 model.updateAccount = async (formData) => {
   try {
     const data = await pool.query(`
@@ -71,6 +84,21 @@ model.updateAccount = async (formData) => {
     return data.rows[0]
   } catch (error) {
     console.error("updateAccount error " + error)
+  }
+}
+
+model.updatePassword = async (hashedPassword, account_id) => {
+  try {
+    const data = await pool.query(`
+      UPDATE public.account 
+      SET account_password = $1
+      WHERE account_id = $2 RETURNING *`,
+      [hashedPassword, account_id]
+    )
+    return data.rows[0]
+  } catch (error) {
+    console.error("updatePassword error " + error)
+    return error.message
   }
 }
 

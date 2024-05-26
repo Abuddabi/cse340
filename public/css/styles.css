@@ -72,7 +72,8 @@ body {
   padding-left: 10px;
 }
 
-.notice {
+.notice,
+.error {
   text-align: center;
   font-weight: bold;
   font-style: italic;
@@ -82,11 +83,13 @@ body {
   background-color: lightsteelblue;
 }
 
-.notice li {
+.notice li,
+.error li {
   list-style-type: none;
 }
 
-.notice_errors li {
+.notice_errors li,
+.error li {
   color: #d00;
 }
 

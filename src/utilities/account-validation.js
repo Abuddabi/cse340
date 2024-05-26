@@ -168,13 +168,55 @@ validate.checkUpdateData = async (req, res, next) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     const nav = await utilities.getNav()
-    const { account_firstname, account_lastname, account_email, account_id } = req.body
     res.render(`account/update`, {
-      title: `Update ${account_firstname}`,
+      title: `Update ${req.body.account_firstname}`,
       nav,
-      account_firstname,
-      account_lastname,
-      account_email,
+      formData: req.body,
+      errors,
+      passwordPattern
+    })
+    return
+  }
+  next()
+}
+
+validate.updatePasswordRules = () => {
+  return [
+    // password is required and must be strong password
+    body("account_password")
+      .trim()
+      .notEmpty()
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage("Current password does not meet requirements."),
+
+    // password is required and must be strong password
+    body("new_account_password")
+      .trim()
+      .notEmpty()
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage("New password does not meet requirements."),
+  ]
+}
+
+validate.checkUpdatePasswordData = async (req, res, next) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const nav = await utilities.getNav()
+    res.render(`account/update`, {
+      title: `Update ${res.locals.accountData.account_firstname}`,
+      nav,
       errors,
       passwordPattern
     })
