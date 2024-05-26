@@ -177,16 +177,46 @@ Util.checkAuthLevel = (req, res, next) => {
   }
 }
 
+Util.canUpdate = (req, res, next) => {
+  if (!res.locals.loggedin) {
+    req.flash("notice", "Please log in.");
+    return res.redirect("/account/login");
+  }
+
+  const accountType = res.locals.accountData.account_type;
+  const sameAccount = req.params.account_id === res.locals.accountData.account_id;
+
+  if (sameAccount || accountType === "Admin" || accountType === "Employee") {
+    next();
+  } else if (!sameAccount) {
+    req.flash("notice",
+      `Access denied. You can not edit other client's accounts.`);
+  } else {
+    req.flash("notice",
+      `Your account has type ${accountType}. 
+      You don't have access to ${req.originalUrl}. Ask Admin to give you rights for that.`);
+  }
+  res.redirect(req.header('Referer') || '/');
+}
+
 /* ****************************************
  *  Check Login
  * ************************************ */
 Util.checkLogin = (req, res, next) => {
+  // console.log(res.locals.accountData);
   if (res.locals.loggedin) {
     next()
   } else {
     req.flash("notice", "Please log in.")
     return res.redirect("/account/login")
   }
+}
+
+Util.addAccountDataToReq = (req, res, next) => {
+  if (res.locals.accountData) {
+    req.accountData = res.locals.accountData;
+  }
+  next();
 }
 
 module.exports = Util

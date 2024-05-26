@@ -1,0 +1,46 @@
+<h1 class="h1"><%= title %></h1>
+<%- messages() %>
+
+<%- include("../partials/errors") %>
+
+<form method="POST" action="/account/update/<%- locals.accountData.account_id %>" class="form">
+  <h2 class="form-title">Account Update Form</h2>
+  <label class="input-line">
+    <span class="bold">First name</span>
+    <input type="text" name="account_firstname" required 
+    value="<%- locals.accountData.account_firstname %>">
+  </label>
+  <label class="input-line">
+    <span class="bold">Last name</span>
+    <input type="text" name="account_lastname" required 
+      value="<%- locals.accountData.account_lastname %>">
+  </label>
+  <label class="input-line">
+    <span class="bold">Email</span>
+    <input type="email" name="account_email" required 
+    value="<%- locals.accountData.account_email %>">
+  </label>
+  <label class="input-line">
+    <input class="form-submit-button" type="submit" name="submit" id="updateBtn" value="Update">
+    <input type="hidden" name="account_id" value="<%- locals.accountData.account_id %>">
+  </label>
+</form>
+
+<form method="POST" action="/account/update/<%- locals.accountData.account_id %>" class="form form-password">
+  <h2 class="form-title">Change Password Form</h2>
+  <label class="input-line">
+    <span>By entering a password it will change the current password.</span>
+    <span>Password must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special
+      character</span>
+      <span class="bold mt10">Current Password</span>
+    <input type="password" name="account_password" required pattern="<%- passwordPattern %>">
+  </label>
+  <label class="input-line">
+    <span class="bold">New Password</span>
+    <input type="password" name="new_account_password" required pattern="<%- passwordPattern %>">
+  </label>
+  <label class="input-line">
+    <input class="form-submit-button" type="submit" name="submit" id="updatePswrdBtn" value="Update Password">
+    <input type="hidden" name="account_id" value="<%- locals.accountData.account_id %>">
+  </label>
+</form>

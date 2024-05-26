@@ -17,11 +17,19 @@ router.post("/login",
 
 router.get("/register", u.handleErrors(ctrl.buildRegister));
 router.post("/register",
-  validation.registrationRules(), 
+  validation.registrationRules(),
   validation.checkRegData,
   u.handleErrors(ctrl.registerAccount)
 );
 
 router.get("/logout", u.handleErrors(ctrl.logout));
+
+router.get("/update/:account_id", u.checkAuthLevel, u.handleErrors(ctrl.buildUpdate));
+router.post("/update/:account_id",
+  u.addAccountDataToReq,
+  validation.updateRules(),
+  validation.checkUpdateData,
+  u.handleErrors(ctrl.updateAccount)
+);
 
 module.exports = router;    

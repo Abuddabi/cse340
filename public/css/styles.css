@@ -133,7 +133,14 @@ footer {
 }
 
 .main {
-  padding: 0 4px 20px;
+  padding-bottom: 20px;
+}
+
+.main,
+header,
+footer {
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .main_500 {
@@ -375,6 +382,17 @@ footer {
   border-radius: 6px;
 }
 
+.form.form-password {
+  margin: 30px auto 0;
+}
+
+.form-title {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
 .input-line {
   display: block;
 }
@@ -396,7 +414,8 @@ footer {
 .form input,
 .form textarea,
 .form select {
-  padding: 5px;
+  padding: 10px;
+  border-radius: 4px;
   min-width: 30%;
 }
 
@@ -540,7 +559,12 @@ input:required:valid {
 /* MEDIA */
 
 @media (min-width: 500px) {
-  /* … */
+  .main,
+  header,
+  footer {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
 }
 
 @media (min-width: 720px) {
@@ -629,6 +653,12 @@ input:required:valid {
   }
   .menu__item-link {
     padding: 20px 10px;
+  }
+  .main,
+  header,
+  footer {
+    padding-left: 20px;
+    padding-right: 20px;
   }
   .description__text {
     padding: 0 30px;
