@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model")
+const accountModel = require("../models/account-model")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const Util = {}
@@ -184,19 +185,34 @@ Util.canUpdate = (req, res, next) => {
   }
 
   const accountType = res.locals.accountData.account_type;
-  const sameAccount = req.params.account_id === res.locals.accountData.account_id;
+  const sameAccount = Number(req.params.account_id) === res.locals.accountData.account_id;
 
-  if (sameAccount || accountType === "Admin" || accountType === "Employee") {
+  if (sameAccount || accountType === "Admin") {
     next();
   } else if (!sameAccount) {
     req.flash("notice",
-      `Access denied. You can not edit other client's accounts.`);
+      `Access denied. You can not edit other user's accounts.`);
+    res.redirect(req.header('Referer') || '/');
   } else {
     req.flash("notice",
       `Your account has type ${accountType}. 
       You don't have access to ${req.originalUrl}. Ask Admin to give you rights for that.`);
+    res.redirect(req.header('Referer') || '/');
   }
-  res.redirect(req.header('Referer') || '/');
+}
+
+Util.onlyAdmin = (req, res, next) => {
+  if (!res.locals.loggedin) {
+    req.flash("notice", "Please log in.");
+    return res.redirect("/account/login");
+  }
+
+  if (res.locals.accountData.account_type === "Admin") {
+    next();
+  } else {
+    req.flash("notice", `Access Denied`);
+    res.redirect(req.header('Referer') || '/');
+  }
 }
 
 /* ****************************************
@@ -226,6 +242,14 @@ Util.getDataForJWT = (accountData) => {
   if (process.env.NODE_ENV !== 'development') options.secure = true // https only
 
   return { accessToken, options };
+}
+
+Util.getUsersManagement = async (admin_id) => {
+  const users = await accountModel.getAll();
+
+  return `
+  
+  `;
 }
 
 module.exports = Util

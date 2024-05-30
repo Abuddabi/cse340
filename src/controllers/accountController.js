@@ -9,11 +9,55 @@ const ctrl = {}
 
 ctrl.buildAccount = async (req, res, next) => {
   const nav = await utilities.getNav()
+  const account_type = res.locals.accountData.account_type;
+  let usersManagement = "";
+
+  if (account_type === "Admin") {
+    usersManagement = utilities.getUsersManagement(res.locals.accountData.account_id);
+  }
+
   res.render("account/account", {
     title: "Account",
     nav,
     errors: null,
+    usersManagement
   })
+}
+
+ctrl.getUsersJSON = async (req, res, next) => {
+  const allUsers = await accountModel.getAll();
+
+  if (allUsers[0].account_id) {
+    return res.json(allUsers);
+  } else {
+    next(new Error("No data returned"));
+  }
+}
+
+ctrl.unblockUser = async (req, res, next) => {
+  const account_id = parseInt(req.params.account_id);
+  const updateResult = await accountModel.unblock(account_id);
+
+  if (updateResult) {
+    req.flash("notice", `User with id: ${account_id} was successfully unblocked!`);
+    return res.redirect("/account/");
+  } else {
+    req.flash("notice", "Sorry, update failed.")
+    return res.status(501).redirect("/account/");
+  }
+}
+
+ctrl.blockUser = async (req, res, next) => {
+  const account_id = parseInt(req.params.account_id);
+  const updateResult = await accountModel.block(account_id);
+
+  if (updateResult) {
+    req.flash("notice", `User with id: ${account_id} was successfully blocked!`);
+    return res.redirect("/account/");
+  } else {
+    req.flash("notice", "Sorry, update failed.")
+    return res.status(501).redirect("/account/");
+  }
 }
 
 ctrl.buildLogin = async (req, res) => {

@@ -39,6 +39,8 @@ CREATE TABLE IF NOT EXISTS public.account
   CONSTRAINT account_pkey PRIMARY KEY (account_id)
 );
 
+ALTER TABLE "account" ADD COLUMN is_blocked BOOLEAN DEFAULT FALSE;
+
 INSERT INTO public.classification (classification_name) VALUES 
 ('Custom'),
 ('Sport'),
@@ -236,6 +238,9 @@ UPDATE "inventory"
 SET 
   inv_image = REPLACE(inv_image, '/images', '/images/vehicles'),
   inv_thumbnail = REPLACE(inv_thumbnail, '/images', '/images/vehicles');
+
+
+
 
 SELECT * FROM pg_type WHERE typname = 'account_type';
 

@@ -66,6 +66,46 @@ model.getAccountById = async (account_id) => {
   }
 }
 
+model.getAll = async () => {
+  try {
+    const result = await pool.query(`
+      SELECT *
+      FROM account
+      ORDER by account_id DESC`);
+    return result.rows
+  } catch (error) {
+    return new Error("No matching account found")
+  }
+}
+
+model.unblock = async (account_id) => {
+  try {
+    const result = await pool.query(`
+      UPDATE account
+      SET is_blocked = false
+      WHERE account_id = $1
+      RETURNING *`,
+      [account_id]);
+    return result.rows[0]
+  } catch (error) {
+    return new Error("No matching account found")
+  }
+}
+
+model.block = async (account_id) => {
+  try {
+    const result = await pool.query(`
+      UPDATE account
+      SET is_blocked = true
+      WHERE account_id = $1
+      RETURNING *`,
+      [account_id]);
+    return result.rows[0]
+  } catch (error) {
+    return new Error("No matching account found")
+  }
+}
+
 model.updateAccount = async (formData) => {
   try {
     const data = await pool.query(`

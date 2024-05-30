@@ -519,35 +519,53 @@ input:required:valid {
   padding: 8px;
 }
 
-#inventoryDisplay {
+#inventoryDisplay,
+#usersDisplay {
   border-collapse: collapse;
   margin: 20px 0;
   font-size: 16px;
   text-align: left;
 }
 #inventoryDisplay th,
-#inventoryDisplay td {
+#inventoryDisplay td,
+#usersDisplay th,
+#usersDisplay td {
   padding: 12px 15px;
 }
-#inventoryDisplay thead {
+#inventoryDisplay thead,
+#usersDisplay thead {
   background-color: #009879;
   background-color: var(--blue);
   color: #ffffff;
 }
-#inventoryDisplay tbody tr {
+#inventoryDisplay tbody tr,
+#usersDisplay tbody tr {
   border-bottom: 1px solid #dddddd;
 }
-#inventoryDisplay tbody tr:nth-of-type(even) {
+#inventoryDisplay tbody tr:nth-of-type(even),
+#usersDisplay tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
 }
-#inventoryDisplay tbody tr:hover {
+#inventoryDisplay tbody tr:hover,
+#usersDisplay tbody tr:hover {
   background-color: lightcyan;
 }
 #inventoryDisplay td a {
   color: #009879;
   text-decoration: none;
 }
-#inventoryDisplay td a:hover {
+#usersDisplay td a {
+  font-weight: 600;
+  text-decoration: none;
+}
+#usersDisplay td a.block {
+  color: red;
+}
+#usersDisplay td a.unblock {
+  color: #00983f;
+}
+#inventoryDisplay td a:hover,
+#usersDisplay td a:hover {
   text-decoration: underline;
 }
 
