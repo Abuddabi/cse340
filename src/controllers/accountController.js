@@ -76,18 +76,23 @@ ctrl.buildLogin = async (req, res) => {
 ctrl.accountLogin = async (req, res) => {
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body;
-  const accountData = await accountModel.getAccountByEmail(account_email)
+  const vars = {
+    title: "Login",
+    nav,
+    errors: null,
+    account_email,
+    passwordPattern
+  };
+  const accountData = await accountModel.getAccountByEmail(account_email);
+
   if (!accountData) {
-    req.flash("notice", "Please check your credentials and try again.")
-    res.status(400).render("account/login", {
-      title: "Login",
-      nav,
-      errors: null,
-      account_email,
-      passwordPattern
-    })
-    return
+    req.flash("notice", "Please check your credentials and try again.");
+    return res.status(400).render("account/login", vars);
+  } else if (accountData.is_blocked) {
+    req.flash("error", "Your account is blocked. Please contact Admin for further assistance.");
+    return res.status(403).render("account/login", vars);
   }
+
   try {
     if (await bcrypt.compare(account_password, accountData.account_password)) {
       const jwtData = utilities.getDataForJWT(accountData);

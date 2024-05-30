@@ -206,8 +206,6 @@ ctrl.deleteInventory = async (req, res) => {
   const itemName = `${req.body.inv_make} ${req.body.inv_model}`
 
   if (deleteResult) {
-    console.log(deleteResult);
-    // const itemName = `${deleteResult.inv_make} ${deleteResult.inv_model}`
     req.flash("notice", `The ${itemName} was successfully deleted.`)
     res.redirect("/inv/")
   } else {
